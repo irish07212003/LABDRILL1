@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bite Bliss</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        header {
+            background-color: #d9534f;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav {
+            text-align: center;
+            margin-top: 10px;
+        }
+        nav button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav button:hover {
+            background-color: #c9302c;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Background Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+
+        /* Updated Login Form Styling */
+        #login-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 320px;
+            z-index: 10;
+            transition: transform 0.3s ease;
+            animation: fadeIn 0.3s;
+        }
+
+        #login-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #d9534f;
+            font-size: 24px;
+        }
+
+        #login-form input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #login-form input:focus {
+            border-color: #d9534f;
+        }
+
+        #login-form button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        #login-form button:hover {
+            background-color: #c9302c;
+        }
+
+        #error-message {
+            color: red;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2, h3 {
+            color: #d9534f;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #fff;
+            padding: 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Home Section with Pizza Background */
+        #home {
+            background-image: url('C:\Margherita-Pizza-5-1200.jpg'); /* Replace with the correct path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        #home h2, #home p {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Background Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Login Form -->
+<div id="login-form">
+    <h2>Login to Bite Bliss</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <p id="error-message" class="hidden">Invalid username or password</p>
+</div>
+
+<!-- Main Content (Hidden Initially) -->
+<div id="main-content" class="hidden">
+    <header>
+        <h1>Bite Bliss</h1>
+        <nav>
+            <button onclick="showPage('home')">Home</button>
+            <button onclick="showPage('menu')">Menu</button>
+            <button onclick="showPage('about')">About Us</button>
+            <button onclick="showPage('contact')">Contact Us</button>
+            <button onclick="showPage('faq')">FAQ</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h2>Welcome to Bite Bliss</h2>
+            <p>Your ultimate destination for delicious meals.</p>
+        </section>
+
+        <section id="menu" class="hidden">
+            <h2>Our Menu</h2>
+            <h3>Main Courses</h3>
+            <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\pizza.jpg" alt="Pizza">
+        <h3>Delicious Pizza</h3>
+        <p>Cheesy and flavorful pizza with fresh toppings.</p>
+        <p><strong>Price: ₱250</strong></p>
+        <button onclick="addToCart('Delicious Pizza')">Add to Cart</button>
+    </div>
+    
+   
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\pasta.jpg" alt="Pasta">
+        <h3>Creamy Pasta</h3>
+        <p>Rich and creamy Alfredo pasta with chicken.</p>
+        <p><strong>Price: ₱200</strong></p>
+        <button onclick="addToCart('Creamy Pasta')">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images.jpg" alt="Fried Chicken">
+        <h3>Fried Chicken</h3>
+        <p>crispy juicy fried chicken.</p>
+        <p><strong>Price: ₱220</strong></p>
+        <button onclick="addToCart('Fried Chicken')">Add to Cart</button>
+
+    </div>
+
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (5).jpg" alt="Korean Spicy Chicken Wings">
+        <h3>Korean Spicy Chicken Wings</h3>
+        <p> Crispy fried chicken wings coated in a spicy and sweet Korean-style sauce.</p>
+        <p><strong>Price: ₱250</strong></p>
+        <button onclick="addToCart('Korean Spicy Chicken Wings')">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (1).jpg" alt="Spicy Beef Tacos">
+        <h3>Spicy Beef Tacos</h3>
+        <p> Soft tortillas filled with seasoned beef, fresh salsa, and a hint of spice, topped with cheese and sour cream.</p>
+        <p><strong>Price: ₱200</strong></p>
+        <button onclick="addToCart('French Fries')">Add to Cart</button>
+    </div>
+
+<div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (2).jpg" alt="Garlic Butter Shrimp">
+        <h3>Garlic Butter Shrimp</h3>
+        <p> Succulent shrimp sautéed in a rich garlic butter sauce, served with rice.</p>
+        <p><strong>Price: ₱280</strong></p>
+        <button onclick="addToCart('Garlic Butter Shrimp')">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (4).jpg" alt="Sizzling Beef Steak">
+        <h3> Sizzling Beef Steak</h3>
+        <p> Tender beef slices served on a sizzling plate with rich mushroom gravy and garlic rice.</p>
+        <p><strong>Price: ₱320</strong></p>
+        <button onclick="addToCart('Sizzling Beef Steak')">Add to Cart</button>
+    </div>
+
+
+    
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (3).jpg" alt="Choco Lava Cake">
+        <h3>Choco Lava Cake</h3>
+        <p> A warm, rich chocolate cake with a molten center, served with vanilla ice cream.</p>
+        <p><strong>Price: ₱170</strong></p>
+        <button onclick="addToCart('Choco Lava Cake')">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (6).jpg" alt="Sushi Platter">
+        <h3>Sushi Platter</h3>
+        <p> A variety of fresh sushi rolls, including salmon, tuna, and California maki.</p>
+        <p><strong>Price: ₱450</strong></p>
+        <button onclick="addToCart('Sushi Platter')">Add to Cart</button>
+    </div>
+
+
+    
+
+    <div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (7).jpg" alt="Mango Graham Shake">
+        <h3>Mango Graham Shake</h3>
+        <p> A sweet and creamy mango shake blended with crushed graham crackers.</p>
+        <p><strong>Price: ₱150</strong></p>
+        <button onclick="addToCart('Mango Graham Shake')">Add to Cart</button>
+    </div>
+
+<div class="menu-item">
+        <img src="C:\Users\USER\Downloads\images (8).jpg" alt="Blueberry Cheesecake">
+        <h3>Blueberry Cheesecake</h3>
+        <p> A rich and creamy cheesecake with a buttery graham crust, topped with blueberry</p>
+        <p><strong>Price: ₱220</strong></p>
+        <button onclick="addToCart('Blueberry Cheesecake')">Add to Cart</button>
+    </div>
+
+
+
+<h3>Cart:</h3>
+    <ul id="cart-items"></ul>
+</section>
+
+<!-- Order Online Page -->
+<section id="order" class="hidden">
+    <h2>Order Online</h2>
+    <p>Select your favorite dishes and place an order easily.</p>
+
+    <h3>Cart Items:</h3>
+    <ul id="cart-items-list"></ul>
+
+    <h3>Customer Information</h3>
+    <form id="orderForm">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="address">Delivery Address:</label>
+        <input type="text" id="address" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" required>
+
+        <h3>Payment Method</h3>
+        <select id="payment-method">
+            <option value="cash">Cash on Delivery</option>
+            <option value="credit">Credit/Debit Card</option>
+            <option value="gcash">GCash</option>
+        </select>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+    <p id="orderConfirmation" style="color: green; display: none;">Your order has been placed successfully!</p>
+</section>
+
+
+
+
+ <!-- About Us -->
+        <section id="about" class="hidden">
+    <h2>About Us</h2>
+    <p>Welcome to <strong>Bite Bliss</strong>, where passion meets flavor!</p>
+
+    <p>At Bite Bliss, we believe that food is more than just sustenance—it's an experience. Our journey began with a simple goal: to serve 
+       <strong>delicious, high-quality meals</strong> made with fresh ingredients while providing a warm and welcoming atmosphere for our customers.</p>
+
+    <h3>Why Choose Us?</h3>
+    <ul>
+        <li>🍕 <strong>Fresh & Flavorful</strong> – Every dish is crafted with the freshest ingredients, ensuring every bite is bursting with flavor.</li>
+        <li>🍔 <strong>Variety for Everyone</strong> – From juicy burgers to creamy pasta and mouthwatering pizzas, we have something for every craving.</li>
+        <li>🥗 <strong>Quality You Can Trust</strong> – We take pride in using only the best ingredients, maintaining high standards in every dish we serve.</li>
+        <li>❤️ <strong>Customer-Centric Service</strong> – Your satisfaction is our top priority. We strive to provide excellent service that makes you feel at home.</li>
+    </ul>
+
+    <h3>Our Mission</h3>
+    <p>To bring people together through delicious, comforting food while maintaining a commitment to quality and customer happiness.</p>
+
+    <h3>Visit Us!</h3>
+    <p><strong>📍 Location:</strong> 123 Food Street, Manila, Philippines</p>
+    <p><strong>📞 Contact:</strong> +63 912 345 6789</p>
+    <p><strong>📧 Email:</strong> <a href="mailto:contact@bitebliss.com">contact@bitebliss.com</a></p>
+
+    <p>Come experience the joy of great food at <strong>Bite Bliss</strong>—where every meal is a bite of happiness! 😋✨</p>
+</section>
+        <!-- Contact Us Page -->
+<section id="contact" class="hidden">
+    <h2>Contact Us</h2>
+    <p>Feel free to reach out to us through the following methods:</p>
+    
+    <h3>Email:</h3>
+    <p><a href="mailto:contact@bitebliss.com">contact@bitebliss.com</a></p>
+    
+    <h3>Phone:</h3>
+    <p>+63 912 345 6789</p>
+    
+    <h3>Address:</h3>
+    <p>123 Food Street, Manila, Philippines</p>
+    
+    <h3>Follow Us:</h3>
+    <p>
+        <a href="#" target="_blank">Facebook</a> | 
+        <a href="#" target="_blank">Instagram</a> | 
+        <a href="#" target="_blank">Twitter</a>
+    </p>
+
+    <h3>Send Us a Message:</h3>
+    <form id="contactForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" required></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+    
+    <p id="confirmationMessage" style="color: green; display: none;">Message sent successfully!</p>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </section>
+
+        <!-- Contact Us Page -->
+<section id="contact" class="hidden">
+    <h2>Contact Us</h2>
+    <p>Feel free to reach out to us through the following methods:</p>
+    
+    <h3>Email:</h3>
+    <p><a href="mailto:contact@bitebliss.com">contact@bitebliss.com</a></p>
+    
+    <h3>Phone:</h3>
+    <p>+63 912 345 6789</p>
+    
+    <h3>Address:</h3>
+    <p>123 Food Street, Manila, Philippines</p>
+    
+    <h3>Follow Us:</h3>
+    <p>
+        <a href="#" target="_blank">Facebook</a> | 
+        <a href="#" target="_blank">Instagram</a> | 
+        <a href="#" target="_blank">Twitter</a>
+    </p>
+
+    <h3>Send Us a Message:</h3>
+    <form id="contactForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" required></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+    
+    <p id="confirmationMessage" style="color: green; display: none;">Message sent successfully!</p>
+</section>
+
+       
+
+
+<!-- FAQ Page -->
+        <section id="faq" class="hidden">
+    <h2>Frequently Asked Questions</h2>
+
+    <h3>1. How do I navigate the website?</h3>
+    <p>Simply click on the navigation buttons at the top of the page (Home, Menu, Order Online, About Us, Contact Us, FAQ, Blog) to switch between different sections.</p>
+
+    <h3>2. How do I place an order?</h3>
+    <p>
+        - Go to the <strong>Menu</strong> page.<br>
+        - Click the <strong>"Add to Cart"</strong> button for the items you want.<br>
+        - Click the <strong>"Order Online"</strong> button in the navigation bar.<br>
+        - Fill out the <strong>order form</strong> with your name, delivery address, phone number, and payment method.<br>
+        - Click <strong>"Place Order"</strong> to complete your order.
+    </p>
+
+    <h3>3. What payment methods do you accept?</h3>
+    <ul>
+        <li>Cash on Delivery</li>
+        <li>Credit/Debit Card</li>
+        <li>GCash</li>
+    </ul>
+
+    <h3>4. How do I know if my order was placed successfully?</h3>
+    <p>Once you submit your order, you will see a confirmation message displaying your order details.</p>
+
+    <h3>5. How can I contact customer support?</h3>
+    <p>
+        <strong>Email:</strong> <a href="mailto:contact@bitebliss.com">contact@bitebliss.com</a><br>
+        <strong>Phone:</strong> +63 912 345 6789<br>
+        <strong>Address:</strong> 123 Food Street, Manila, Philippines
+    </p>
+
+    <h3>6. How do I send a message or inquiry?</h3>
+    <p>
+        - Go to the <strong>Contact Us</strong> page.<br>
+        - Fill out the form with your name, email, and message.<br>
+        - Click <strong>"Send Message"</strong> and wait for a confirmation message.
+    </p>
+
+    <h3>7. My order form isn’t working. What should I do?</h3>
+    <p>Make sure all required fields are filled in correctly. If the issue persists, try refreshing the page or contacting customer support.</p>
+
+    <h3>8. Why is my cart empty after adding items?</h3>
+    <p>Currently, the cart only displays items temporarily. If you navigate away from the <strong>Menu</strong> page, your cart items may not be saved. We recommend adding all items before proceeding to the <strong>Order Online</strong> section.</p>
+
+    <h3>9. Do you offer delivery services?</h3>
+    <p>Yes, we deliver to select areas. You will be notified about the estimated delivery time upon order confirmation.</p>
+
+    <h3>10. Can I modify my order after placing it?</h3>
+    <p>Currently, modifications are not available after submitting an order. If you need to change something, please contact us immediately.</p>
+
+</section>
+
+
+
+
+
+ <!-- Blog Page -->
+        <section id="blog" class="hidden">
+    <h2>Welcome to the Bite Bliss Blog</h2>
+    <p>Stay updated with the latest food trends, delicious recipes, and expert tips on healthy eating.</p>
+
+    <h3>Latest Blog Posts</h3>
+    <ul>
+        <li>
+            <a href="#">🍕 Perfecting Homemade Pizza: Tips & Tricks</a>
+            <p>Learn how to make the perfect cheesy pizza with our expert tips.</p>
+        </li>
+        <li>
+            <a href="#">🍔 The Ultimate Guide to a Juicy Burger</a>
+            <p>Discover the secret to making a perfectly juicy and flavorful burger at home.</p>
+        </li>
+        <li>
+            <a href="#">🥗 Healthy Eating: 5 Easy & Delicious Meals</a>
+            <p>Eating healthy doesn’t have to be boring! Try these tasty and nutritious meals.</p>
+        </li>
+        <li>
+            <a href="#">☕ Food Trends 2024: What's Hot in the Culinary World?</a>
+            <p>From plant-based diets to fusion flavors, check out the hottest food trends of the year.</p>
+        </li>
+    </ul>
+
+    <p>Explore more delicious articles and food inspiration right here on **Bite Bliss Blog**! Stay hungry for new ideas. 🍽️✨</p>
+</section>
+    </main>
+<script>
+    function addToCart(itemName) {
+    let cartList = document.getElementById("cart-items");
+    let listItem = document.createElement("li");
+    listItem.textContent = itemName;
+    cartList.appendChild(listItem);
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username === 'admin123' && password === 'admin123') {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('overlay').classList.add('hidden');
+        } else {
+            document.getElementById('error-message').classList.remove('hidden');
+        }
+    }
+
+    function showPage(page) {
+        document.querySelectorAll('main section').forEach(section => section.classList.add('hidden'));
+        document.getElementById(page).classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
